@@ -63,6 +63,7 @@
 //---------------------------------------------------------
 #include "MLB_Interface.h"
 
+#include <gdal.h>
 
 ///////////////////////////////////////////////////////////
 //														 //
@@ -81,8 +82,8 @@ public:
 
 	int							Get_Count			(void)						const;
 
-	class GDALDriver *			Get_Driver			(const CSG_String &Name)	const;
-	class GDALDriver *			Get_Driver			(int Index)					const;
+	GDALDriverH					Get_Driver			(const CSG_String &Name)	const;
+	GDALDriverH					Get_Driver			(int Index)					const;
 
 	CSG_String					Get_Name			(int Index)					const;
 	CSG_String					Get_Description		(int Index)					const;
@@ -95,12 +96,6 @@ public:
 
 	static int					Get_GDAL_Type		(TSG_Data_Type Type);
 	static TSG_Data_Type		Get_SAGA_Type		(int           Type);
-
-
-private:
-
-	class GDALDriverManager		*m_pDrivers;
-
 };
 
 //---------------------------------------------------------
@@ -151,7 +146,7 @@ public:
 	bool						Get_Transformation	(CSG_Grid **ppGrid, TSG_Grid_Resampling Interpolation, bool bVerbose)	const;
 	bool						Get_Transformation	(CSG_Grid **ppGrid, TSG_Grid_Resampling Interpolation, const CSG_Grid_System &System, bool bVerbose)	const;
 
-	class GDALDriver *			Get_Driver			(void)	const;
+	GDALDriverH			Get_Driver			(void)	const;
 	CSG_String					Get_DriverID		(void)	const;
 	CSG_String					Get_Name			(void)	const;
 	CSG_String					Get_Description		(void)	const;
@@ -188,7 +183,7 @@ private:
 
 	CSG_Matrix					m_TF_B, m_TF_BInv;
 
-	class GDALDataset			*m_pDataSet, *m_pVrtSource;
+	GDALDatasetH			m_pDataSet, m_pVrtSource;
 
 
 	bool						_Set_Transformation	(void);
@@ -246,3 +241,5 @@ io_gdal_EXPORT TSG_Data_Type			SG_Get_Grid_Type	(CSG_Parameter_Grid_List *pGrids
 
 //---------------------------------------------------------
 #endif // #ifndef HEADER_INCLUDED__gdal_driver_H
+
+// vim: set ts=4 :

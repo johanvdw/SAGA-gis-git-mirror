@@ -61,7 +61,9 @@
 //---------------------------------------------------------
 #include "crs_base.h"
 
+extern "C" {
 #include <projects.h>
+}
 
 
 ///////////////////////////////////////////////////////////
@@ -198,6 +200,7 @@ int CCRS_Base::On_Parameter_Changed(CSG_Parameters *pParameters, CSG_Parameter *
 	{
 		if(	!SG_STR_CMP(pParameter->Get_Identifier(), "PROJ_TYPE") )
 		{
+			PJ_LIST *pj_list = pj_get_list_ref();
 			pParameters->Get_Parameter("OPTIONS")->asParameters()->Assign(Get_Parameters(SG_STR_MBTOSG(pj_list[pParameter->asInt()].id)));
 		}
 
@@ -396,7 +399,7 @@ bool CCRS_Base::Set_User_Parameters(CSG_Parameters *pParameters)
 	// Projection -----------------------------------------
 	sDescription	= _TL("Available Projections:");
 
-	for(struct PJ_LIST *pProjection=pj_list; pProjection->id; ++pProjection)
+	for(struct PJ_LIST *pProjection=pj_get_list_ref(); pProjection->id; ++pProjection)
 	{
 		sArguments		= *pProjection->descr;
 		sName			= sArguments.BeforeFirst('\n');
@@ -409,7 +412,7 @@ bool CCRS_Base::Set_User_Parameters(CSG_Parameters *pParameters)
 	}
 
 	// Datums ---------------------------------------------
-	for(struct PJ_DATUMS *pDatum=pj_datums; pDatum->id; ++pDatum)
+	for(struct PJ_DATUMS *pDatum=pj_get_datums_ref(); pDatum->id; ++pDatum)
 	{
 		CSG_String	id      (pDatum->id);
 		CSG_String	comments(pDatum->comments);
@@ -418,13 +421,13 @@ bool CCRS_Base::Set_User_Parameters(CSG_Parameters *pParameters)
 	}
 
 	// Ellipsoids -----------------------------------------
-	for(struct PJ_ELLPS *pEllipse=pj_ellps; pEllipse->id; ++pEllipse)
+	for(struct PJ_ELLPS *pEllipse=pj_get_ellps_ref(); pEllipse->id; ++pEllipse)
 	{
 		sEllipsoids	+= CSG_String::Format(SG_T("{%s}%s (%s, %s)|"), SG_STR_MBTOSG(pEllipse->id), SG_STR_MBTOSG(pEllipse->name), SG_STR_MBTOSG(pEllipse->major), SG_STR_MBTOSG(pEllipse->ell));
 	}
 
 	// Units ----------------------------------------------
-	for(struct PJ_UNITS *pUnit=pj_units; pUnit->id; ++pUnit)
+	for(struct PJ_UNITS *pUnit=pj_get_units_ref(); pUnit->id; ++pUnit)
 	{
 		sUnits	+= CSG_String::Format(SG_T("{%s}%s (%s)|"), SG_STR_MBTOSG(pUnit->id), SG_STR_MBTOSG(pUnit->name), SG_STR_MBTOSG(pUnit->to_meter));
 	}
@@ -543,7 +546,7 @@ bool CCRS_Base::Set_User_Parameters(CSG_Parameters *pParameters)
 		_TL("")
 	);
 
-	pParameters->Get_Parameter("OPTIONS")->asParameters()->Assign(Get_Parameters(SG_STR_MBTOSG(pj_list[0].id)));
+	pParameters->Get_Parameter("OPTIONS")->asParameters()->Assign(Get_Parameters(SG_STR_MBTOSG(pj_get_list_ref()->id)));
 
 	//-----------------------------------------------------
 	return( true );
@@ -801,10 +804,14 @@ bool CCRS_Base::Add_User_Projection(const CSG_String &sID, const CSG_String &sNa
 //---------------------------------------------------------
 CSG_String CCRS_Base::Get_User_Definition(CSG_Parameters &P)
 {
+	PJ_LIST *pj_list = pj_get_list_ref();
+	PJ_UNITS *pj_units = pj_get_units_ref();
+	PJ_DATUMS *pj_datums = pj_get_datums_ref();
+	PJ_ELLPS *pj_ellps=pj_get_ellps_ref();
 	CSG_String	Proj4;
 
 	//-----------------------------------------------------
-	PROJ4_ADD_STR("proj"	, pj_list[P("PROJ_TYPE")->asInt()].id);
+	PROJ4_ADD_STR("proj", pj_list[P("PROJ_TYPE")->asInt()].id);
 
 	if( P("LON_0")->asDouble() )	PROJ4_ADD_FLT("lon_0", P("LON_0")->asDouble());
 	if( P("LAT_0")->asDouble() )	PROJ4_ADD_FLT("lat_0", P("LAT_0")->asDouble());
@@ -1018,6 +1025,7 @@ bool CCRS_Base::Set_User_Definition(CSG_Parameters &P, const CSG_String &Proj4)
 	}
 
 	//-----------------------------------------------------
+	PJ_LIST *pj_list = pj_get_list_ref();
 	P("OPTIONS")->asParameters()->Assign(Get_Parameters(SG_STR_MBTOSG(pj_list[P("PROJ_TYPE")->asInt()].id)));
 
 	for(int i=0; i<P("OPTIONS")->asParameters()->Get_Count(); i++)
@@ -1112,3 +1120,4 @@ bool CCRS_Transform::On_Execute(void)
 ///////////////////////////////////////////////////////////
 
 //---------------------------------------------------------
+// vim: set ts=4 :

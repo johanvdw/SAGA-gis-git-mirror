@@ -355,6 +355,11 @@ bool CPROJ4_Base::_Get_Projections(CSG_String &sPrjSrc, CSG_String &sPrjDst)
 //---------------------------------------------------------
 bool CPROJ4_Base::_Get_Projection(CSG_String &sPrj, CSG_Parameters &P)
 {
+	PJ_LIST *pj_list = pj_get_list_ref();
+	PJ_ELLPS *pj_ellps = pj_get_ellps_ref();
+	PJ_UNITS *pj_units = pj_get_units_ref();
+	PJ_DATUMS *pj_datums = pj_get_datums_ref();
+
 	//-----------------------------------------------------
 	sPrj	.Clear();
 
@@ -500,7 +505,7 @@ bool CPROJ4_Base::_Init_Projection(CSG_Parameters &P)
 
 	sList.Clear();
 
-	for(struct PJ_LIST *pProjection=pj_list; pProjection->id; ++pProjection)
+	for(struct PJ_LIST *pProjection=pj_get_list_ref(); pProjection->id; ++pProjection)
 	{
 		sArgs	= *pProjection->descr;
 		sName	= sArgs.BeforeFirst('\n');
@@ -535,7 +540,7 @@ bool CPROJ4_Base::_Init_Projection(CSG_Parameters &P)
 
 	sList.Clear();
 
-	for(struct PJ_DATUMS *pDatum=pj_datums; pDatum->id; ++pDatum)
+	for(struct PJ_DATUMS *pDatum=pj_get_datums_ref(); pDatum->id; ++pDatum)
 	{
 		sList	+= CSG_String::Format(SG_T("[%s]"), SG_STR_MBTOSG(pDatum->id));
 
@@ -591,7 +596,7 @@ bool CPROJ4_Base::_Init_Projection(CSG_Parameters &P)
 	//-----------------------------------------------------
 	sList.Clear();
 
-	for(struct PJ_ELLPS *pEllipse=pj_ellps; pEllipse->id; ++pEllipse)
+	for(struct PJ_ELLPS *pEllipse=pj_get_ellps_ref(); pEllipse->id; ++pEllipse)
 	{
 		sList	+= CSG_String::Format(SG_T("[%s] %s (%s, %s)|"), SG_STR_MBTOSG(pEllipse->id), SG_STR_MBTOSG(pEllipse->name), SG_STR_MBTOSG(pEllipse->major), SG_STR_MBTOSG(pEllipse->ell));
 	}
@@ -736,7 +741,7 @@ bool CPROJ4_Base::_Init_Projection(CSG_Parameters &P)
 	//-----------------------------------------------------
 	sList.Clear();
 
-	for(struct PJ_UNITS *pUnit=pj_units; pUnit->id; ++pUnit)
+	for(struct PJ_UNITS *pUnit=pj_get_units_ref(); pUnit->id; ++pUnit)
 	{
 		sList	+= CSG_String::Format(SG_T("%s (%s)|"), SG_STR_MBTOSG(pUnit->name), SG_STR_MBTOSG(pUnit->to_meter));
 	}
