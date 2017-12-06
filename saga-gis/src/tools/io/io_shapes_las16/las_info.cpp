@@ -221,7 +221,7 @@ bool CLAS_Info::Print_Header(CSG_String fName, LAS_HEADER header)
 									header.GetReserved()), true);
 
 	SG_UI_Msg_Add(CSG_String::Format(_TL("  Project ID/GUID:\t\t'%s'"),
-									CSG_String(header.GetProjectId().to_string().c_str()).w_str()), true);
+									CSG_String(boost::uuids::to_string(header.GetProjectId()).c_str()).w_str()), true);
 
 	SG_UI_Msg_Add(CSG_String::Format(_TL("  System Identifier:\t\t'%s'"),
 									CSG_String(header.GetSystemId().c_str()).w_str()), true);
@@ -315,66 +315,66 @@ bool CLAS_Info::Print_Point_Summary(LAS_HEADER header, LASPointSummary *pSummary
 	SG_UI_Msg_Add(SG_T("---------------------------------------------------------"), true);
 
 	SG_UI_Msg_Add(CSG_String::Format(_TL("  Min X Y Z:\t\t\t%.6f  %.6f  %.6f"),
-									pSummary->pmin.GetX(),
-									pSummary->pmin.GetY(),
-									pSummary->pmin.GetZ()), true);
+									pSummary->pmin->GetX(),
+									pSummary->pmin->GetY(),
+									pSummary->pmin->GetZ()), true);
 
 	SG_UI_Msg_Add(CSG_String::Format(_TL("  Max X Y Z:\t\t\t%.6f  %.6f  %.6f"),
-									pSummary->pmax.GetX(),
-									pSummary->pmax.GetY(),
-									pSummary->pmax.GetZ()), true);
+									pSummary->pmax->GetX(),
+									pSummary->pmax->GetY(),
+									pSummary->pmax->GetZ()), true);
 
 	SG_UI_Msg_Add(CSG_String::Format(_TL("  Bounding Box:\t\t\t%.2f, %.2f, %.2f, %.2f"),
-									pSummary->pmin.GetX(),
-									pSummary->pmin.GetY(),
-									pSummary->pmax.GetX(),
-									pSummary->pmax.GetY()), true);
+									pSummary->pmin->GetX(),
+									pSummary->pmin->GetY(),
+									pSummary->pmax->GetX(),
+									pSummary->pmax->GetY()), true);
 
 	SG_UI_Msg_Add(CSG_String::Format(_TL("  Time:\t\t\t\t%.6f, %.6f"),
-									pSummary->pmin.GetTime(),
-									pSummary->pmax.GetTime()), true);
+									pSummary->pmin->GetTime(),
+									pSummary->pmax->GetTime()), true);
 
 	SG_UI_Msg_Add(CSG_String::Format(_TL("  Return Number:\t\t%d, %d"),
-									pSummary->pmin.GetReturnNumber(),
-									pSummary->pmax.GetReturnNumber()), true);
+									pSummary->pmin->GetReturnNumber(),
+									pSummary->pmax->GetReturnNumber()), true);
 
 	SG_UI_Msg_Add(CSG_String::Format(_TL("  Return Count:\t\t\t%d, %d"),
-									pSummary->pmin.GetNumberOfReturns(),
-									pSummary->pmax.GetNumberOfReturns()), true);
+									pSummary->pmin->GetNumberOfReturns(),
+									pSummary->pmax->GetNumberOfReturns()), true);
 
 	SG_UI_Msg_Add(CSG_String::Format(_TL("  Flightline Edge:\t\t\t%d, %d"),
-									pSummary->pmin.GetFlightLineEdge(),
-									pSummary->pmax.GetFlightLineEdge()), true);
+									pSummary->pmin->GetFlightLineEdge(),
+									pSummary->pmax->GetFlightLineEdge()), true);
 
 	SG_UI_Msg_Add(CSG_String::Format(_TL("  Intensity:\t\t\t%d, %d"),
-									pSummary->pmin.GetIntensity(),
-									pSummary->pmax.GetIntensity()), true);
+									pSummary->pmin->GetIntensity(),
+									pSummary->pmax->GetIntensity()), true);
 
 	SG_UI_Msg_Add(CSG_String::Format(_TL("  Scan Direction Flag:\t\t%d, %d"),
-									pSummary->pmin.GetScanDirection(),
-									pSummary->pmax.GetScanDirection()), true);
+									pSummary->pmin->GetScanDirection(),
+									pSummary->pmax->GetScanDirection()), true);
 
 	SG_UI_Msg_Add(CSG_String::Format(_TL("  Scan Angle Rank:\t\t%d, %d"),
-									pSummary->pmin.GetScanAngleRank(),
-									pSummary->pmax.GetScanAngleRank()), true);
+									pSummary->pmin->GetScanAngleRank(),
+									pSummary->pmax->GetScanAngleRank()), true);
 
 	SG_UI_Msg_Add(CSG_String::Format(_TL("  Classification:\t\t\t%d, %d"),
-									pSummary->pmin.GetClassification(),
-									pSummary->pmax.GetClassification()), true);
+									pSummary->pmin->GetClassification(),
+									pSummary->pmax->GetClassification()), true);
 
 	SG_UI_Msg_Add(CSG_String::Format(_TL("  Point Source Id:\t\t%d, %d"),
-									pSummary->pmin.GetPointSourceID(),
-									pSummary->pmax.GetPointSourceID()), true);
+									pSummary->pmin->GetPointSourceID(),
+									pSummary->pmax->GetPointSourceID()), true);
 
 	SG_UI_Msg_Add(CSG_String::Format(_TL("  Minimum Color:\t\t\t%d %d %d"),
-									pSummary->pmin.GetColor().GetRed(),
-									pSummary->pmin.GetColor().GetGreen(),
-									pSummary->pmin.GetColor().GetBlue()), true);
+									pSummary->pmin->GetColor().GetRed(),
+									pSummary->pmin->GetColor().GetGreen(),
+									pSummary->pmin->GetColor().GetBlue()), true);
 
 	SG_UI_Msg_Add(CSG_String::Format(_TL("  Maximum Color:\t\t%d %d %d"),
-									pSummary->pmax.GetColor().GetRed(),
-									pSummary->pmax.GetColor().GetGreen(),
-									pSummary->pmax.GetColor().GetBlue()), true);
+									pSummary->pmax->GetColor().GetRed(),
+									pSummary->pmax->GetColor().GetGreen(),
+									pSummary->pmax->GetColor().GetBlue()), true);
 
 	
 	SG_UI_Msg_Add(SG_T(""), true);
@@ -496,8 +496,8 @@ bool CLAS_Info::Summarize_Points(LAS_READER *pReader, LASPointSummary *pSummary,
 
 	LAS_POINT const& p = pReader->GetPoint();
 
-	pSummary->pmin	= p;
-	pSummary->pmax	= p;
+	pSummary->pmin	= new LAS_POINT(p);
+	pSummary->pmax	= new LAS_POINT(p);
 
 	i = 1;
 
@@ -508,48 +508,48 @@ bool CLAS_Info::Summarize_Points(LAS_READER *pReader, LASPointSummary *pSummary,
 			SG_UI_Process_Set_Progress(i, headerPts);
 
 		pSummary->x = p.GetX();
-		if( pSummary->x < pSummary->pmin.GetX() )					pSummary->pmin.SetX(pSummary->x);
-		if( pSummary->x > pSummary->pmax.GetX() )					pSummary->pmax.SetX(pSummary->x);
+		if( pSummary->x < pSummary->pmin->GetX() )					pSummary->pmin->SetX(pSummary->x);
+		if( pSummary->x > pSummary->pmax->GetX() )					pSummary->pmax->SetX(pSummary->x);
 
 		pSummary->y = p.GetY();
-		if( pSummary->y < pSummary->pmin.GetY() )					pSummary->pmin.SetY(pSummary->y);
-		if( pSummary->y > pSummary->pmax.GetY() )					pSummary->pmax.SetY(pSummary->y);
+		if( pSummary->y < pSummary->pmin->GetY() )					pSummary->pmin->SetY(pSummary->y);
+		if( pSummary->y > pSummary->pmax->GetY() )					pSummary->pmax->SetY(pSummary->y);
 
 		pSummary->z = p.GetZ();
-		if( pSummary->z < pSummary->pmin.GetZ() )					pSummary->pmin.SetZ(pSummary->z);
-		if( pSummary->z > pSummary->pmax.GetZ() )					pSummary->pmax.SetZ(pSummary->z);
+		if( pSummary->z < pSummary->pmin->GetZ() )					pSummary->pmin->SetZ(pSummary->z);
+		if( pSummary->z > pSummary->pmax->GetZ() )					pSummary->pmax->SetZ(pSummary->z);
 
 		pSummary->intensity = p.GetIntensity();
-		if( pSummary->intensity < pSummary->pmin.GetIntensity() )	pSummary->pmin.SetIntensity(pSummary->intensity);
-		if( pSummary->intensity > pSummary->pmax.GetIntensity() )	pSummary->pmax.SetIntensity(pSummary->intensity);
+		if( pSummary->intensity < pSummary->pmin->GetIntensity() )	pSummary->pmin->SetIntensity(pSummary->intensity);
+		if( pSummary->intensity > pSummary->pmax->GetIntensity() )	pSummary->pmax->SetIntensity(pSummary->intensity);
 
 		pSummary->t = p.GetTime();
-		if( pSummary->t < pSummary->pmin.GetTime() )				pSummary->pmin.SetTime(pSummary->t);
-		if( pSummary->t > pSummary->pmax.GetTime() )				pSummary->pmax.SetTime(pSummary->t);
+		if( pSummary->t < pSummary->pmin->GetTime() )				pSummary->pmin->SetTime(pSummary->t);
+		if( pSummary->t > pSummary->pmax->GetTime() )				pSummary->pmax->SetTime(pSummary->t);
 
 		pSummary->retnum = p.GetReturnNumber();
-		if( pSummary->retnum < pSummary->pmin.GetReturnNumber() )	pSummary->pmin.SetReturnNumber(pSummary->retnum);
-		if( pSummary->retnum > pSummary->pmax.GetReturnNumber() )	pSummary->pmax.SetReturnNumber(pSummary->retnum);
+		if( pSummary->retnum < pSummary->pmin->GetReturnNumber() )	pSummary->pmin->SetReturnNumber(pSummary->retnum);
+		if( pSummary->retnum > pSummary->pmax->GetReturnNumber() )	pSummary->pmax->SetReturnNumber(pSummary->retnum);
 
 		pSummary->numret = p.GetNumberOfReturns();
-		if( pSummary->numret < pSummary->pmin.GetNumberOfReturns() )pSummary->pmin.SetNumberOfReturns(pSummary->numret);
-		if( pSummary->numret > pSummary->pmax.GetNumberOfReturns() )pSummary->pmax.SetNumberOfReturns(pSummary->numret);
+		if( pSummary->numret < pSummary->pmin->GetNumberOfReturns() )pSummary->pmin->SetNumberOfReturns(pSummary->numret);
+		if( pSummary->numret > pSummary->pmax->GetNumberOfReturns() )pSummary->pmax->SetNumberOfReturns(pSummary->numret);
 
 		pSummary->scandir = p.GetScanDirection();
-		if( pSummary->scandir < pSummary->pmin.GetScanDirection() )	pSummary->pmin.SetScanDirection(pSummary->scandir);
-		if( pSummary->scandir > pSummary->pmax.GetScanDirection() )	pSummary->pmax.SetScanDirection(pSummary->scandir);
+		if( pSummary->scandir < pSummary->pmin->GetScanDirection() )	pSummary->pmin->SetScanDirection(pSummary->scandir);
+		if( pSummary->scandir > pSummary->pmax->GetScanDirection() )	pSummary->pmax->SetScanDirection(pSummary->scandir);
 
 		pSummary->fedge = p.GetFlightLineEdge();
-		if( pSummary->fedge < pSummary->pmin.GetFlightLineEdge() )	pSummary->pmin.SetFlightLineEdge(pSummary->fedge);
-		if( pSummary->fedge > pSummary->pmax.GetFlightLineEdge() )	pSummary->pmax.SetFlightLineEdge(pSummary->fedge);
+		if( pSummary->fedge < pSummary->pmin->GetFlightLineEdge() )	pSummary->pmin->SetFlightLineEdge(pSummary->fedge);
+		if( pSummary->fedge > pSummary->pmax->GetFlightLineEdge() )	pSummary->pmax->SetFlightLineEdge(pSummary->fedge);
 
 		pSummary->scan_angle = p.GetScanAngleRank();
-		if( pSummary->scan_angle < pSummary->pmin.GetScanAngleRank() )	pSummary->pmin.SetScanAngleRank(pSummary->scan_angle);
-		if( pSummary->scan_angle > pSummary->pmax.GetScanAngleRank() )	pSummary->pmax.SetScanAngleRank(pSummary->scan_angle);
+		if( pSummary->scan_angle < pSummary->pmin->GetScanAngleRank() )	pSummary->pmin->SetScanAngleRank(pSummary->scan_angle);
+		if( pSummary->scan_angle > pSummary->pmax->GetScanAngleRank() )	pSummary->pmax->SetScanAngleRank(pSummary->scan_angle);
 
 		pSummary->user_data = p.GetUserData();
-		if( pSummary->user_data < pSummary->pmin.GetUserData() )	pSummary->pmin.SetUserData(pSummary->user_data);
-		if( pSummary->user_data > pSummary->pmax.GetUserData() )	pSummary->pmax.SetUserData(pSummary->user_data);
+		if( pSummary->user_data < pSummary->pmin->GetUserData() )	pSummary->pmin->SetUserData(pSummary->user_data);
+		if( pSummary->user_data > pSummary->pmax->GetUserData() )	pSummary->pmax->SetUserData(pSummary->user_data);
 
 		pSummary->number_of_point_records = i;
 
@@ -562,21 +562,21 @@ bool CLAS_Info::Summarize_Points(LAS_READER *pReader, LASPointSummary *pSummary,
 
 #if defined(LIBLAS_VERSION) && LIBLAS_VERSION >= 106000
 		cls = p.GetClassification().GetClass();
-		if( cls < pSummary->pmin.GetClassification().GetClass() )	pSummary->pmin.SetClassification(cls);
-		if( cls > pSummary->pmax.GetClassification().GetClass() )	pSummary->pmax.SetClassification(cls);
+		if( cls < pSummary->pmin->GetClassification().GetClass() )	pSummary->pmin->SetClassification(cls);
+		if( cls > pSummary->pmax->GetClassification().GetClass() )	pSummary->pmax->SetClassification(cls);
 #else
 		cls = p.GetClassification();
-		if( cls < pSummary->pmin.GetClassification() )				pSummary->pmin.SetClassification(cls);
-		if( cls > pSummary->pmax.GetClassification() )				pSummary->pmax.SetClassification(cls);
+		if( cls < pSummary->pmin->GetClassification() )				pSummary->pmin->SetClassification(cls);
+		if( cls > pSummary->pmax->GetClassification() )				pSummary->pmax->SetClassification(cls);
 #endif
 
 		ptsrc = p.GetPointSourceID();
-		if( ptsrc < pSummary->pmin.GetPointSourceID() )				pSummary->pmin.SetPointSourceID(ptsrc);
-		if( ptsrc > pSummary->pmax.GetPointSourceID() )				pSummary->pmax.SetPointSourceID(ptsrc);
+		if( ptsrc < pSummary->pmin->GetPointSourceID() )				pSummary->pmin->SetPointSourceID(ptsrc);
+		if( ptsrc > pSummary->pmax->GetPointSourceID() )				pSummary->pmax->SetPointSourceID(ptsrc);
 
 		color = p.GetColor();
-		min_color = pSummary->pmin.GetColor();
-		max_color = pSummary->pmax.GetColor();
+		min_color = pSummary->pmin->GetColor();
+		max_color = pSummary->pmax->GetColor();
 
 		min_color.GetRed() < color.GetRed() ? red = min_color.GetRed() : red = color.GetRed();
 		min_color.GetGreen() < color.GetGreen() ? green = min_color.GetGreen() : green = color.GetGreen();
@@ -586,7 +586,7 @@ bool CLAS_Info::Summarize_Points(LAS_READER *pReader, LASPointSummary *pSummary,
 		min_color.SetGreen(green);
 		min_color.SetBlue(blue);
 
-		pSummary->pmin.SetColor(min_color);
+		pSummary->pmin->SetColor(min_color);
 		
 		max_color.GetRed() > color.GetRed() ? red = max_color.GetRed() : red = color.GetRed();
 		max_color.GetGreen() > color.GetGreen() ? green = max_color.GetGreen() : green = color.GetGreen();
@@ -596,7 +596,7 @@ bool CLAS_Info::Summarize_Points(LAS_READER *pReader, LASPointSummary *pSummary,
 		max_color.SetGreen(green);
 		max_color.SetBlue(blue);
 
-		pSummary->pmax.SetColor(max_color);
+		pSummary->pmax->SetColor(max_color);
 
 		pSummary->classification[cls & 31]++;
 		if( cls & 32 )

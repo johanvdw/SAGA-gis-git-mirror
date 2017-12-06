@@ -148,14 +148,14 @@ typedef struct	{
 				int classification_synthetic;
 				int classification_keypoint;
 				int classification_withheld;
-				LAS_POINT pmax;
-				LAS_POINT pmin;
+				LAS_POINT *pmax;
+				LAS_POINT *pmin;
 				}
 	LASPointSummary;
 
 
 //---------------------------------------------------------
-class CLAS_Info : public CSG_Module
+class CLAS_Info : public CSG_Tool
 {
 public:
 	CLAS_Info(void);

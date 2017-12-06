@@ -80,7 +80,7 @@
 ///////////////////////////////////////////////////////////
 
 //---------------------------------------------------------
-class CLAS_Import : public CSG_Module
+class CLAS_Import : public CSG_Tool
 {
 public:
 	CLAS_Import(void);

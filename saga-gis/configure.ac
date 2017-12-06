@@ -336,6 +336,7 @@ AC_OUTPUT(Makefile \
 	src/tools/io/io_shapes/Makefile \
 	src/tools/io/io_shapes_dxf/Makefile \
 	src/tools/io/io_shapes_las/Makefile \
+	src/tools/io/io_shapes_las16/Makefile \
 	src/tools/io/io_table/Makefile \
 	src/tools/io/io_virtual/Makefile \
 	src/tools/pointcloud/Makefile \
