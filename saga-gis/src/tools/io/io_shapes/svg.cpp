@@ -269,6 +269,7 @@ void CSVG_Export::Add_Line(CSG_MetaData &SVG, CSG_Shape *pShape, int iPart, long
 		pSVG->Add_Property(SG_T("fill")			, SG_T("none"));
 		pSVG->Add_Property(SG_T("stroke")		, CSG_String::Format(SG_T("rgb(%d,%d,%d)"), SG_GET_R(Color), SG_GET_G(Color), SG_GET_B(Color)));
 		pSVG->Add_Property(SG_T("stroke-width")	, Size);
+		pSVG->Add_Property(SG_T("data-z")		, CSG_String::Format(SG_T("%f"), pShape->Get_Z(0)));
 	}
 }
 
