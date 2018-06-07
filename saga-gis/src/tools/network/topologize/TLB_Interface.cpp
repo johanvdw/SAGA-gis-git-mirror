@@ -31,11 +31,11 @@ CSG_String Get_Info(int i)
 
 #include "topologize.h"
 
-CSG_Tool *		Create_Module(int i)
+CSG_Tool *		Create_Tool(int i)
 {
 
 
-	CSG_Module	*pModule;
+	CSG_Tool	*pModule;
 	
 	switch( i )
 	{
