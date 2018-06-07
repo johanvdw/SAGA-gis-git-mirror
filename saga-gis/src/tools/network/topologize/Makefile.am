@@ -9,10 +9,8 @@ AM_LDFLAGS         = -fPIC -shared -avoid-version
 pkglib_LTLIBRARIES = libnetwork_topologize.la
 libnetwork_topologize_la_SOURCES =\
 topologize.cpp\
-stp.cpp\
 TLB_Interface.cpp\
 topologize.h\
-stp.h\
 TLB_Interface.h
 
 libnetwork_topologize_la_LIBADD = $(top_srcdir)/src/saga_core/saga_api/libsaga_api.la

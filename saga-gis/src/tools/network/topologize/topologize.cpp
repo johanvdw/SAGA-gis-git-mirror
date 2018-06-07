@@ -55,7 +55,6 @@ bool CTopologize::On_Execute(void)
 
     pOutLines->Set_Name(CSG_String::Format(_TL("Topology of %s"),pInLines->Get_Name()));
     
-
 	pOutLines->Add_Field("start_id", SG_DATATYPE_Int);
 	pOutLines->Add_Field("end_id", SG_DATATYPE_Int);
 	
@@ -68,12 +67,13 @@ bool CTopologize::On_Execute(void)
 
 	for (int iLine = 0; iLine < pInLines->Get_Count() && SG_UI_Process_Set_Progress(iLine, pInLines->Get_Count()); iLine++)
 	{
-		pInLine = pInLines->Get_Shape(iLine);
-		
+        pInLine = pInLines->Get_Shape(iLine);
+
 		for (iPart = 0; iPart < pInLine->Get_Part_Count(); iPart++)
 		{
 			// Copy the shape
 			CSG_Shape *pOut = pOutLines->Add_Shape();
+
 			for (int iPoint = 0; iPoint < pInLine->Get_Point_Count(iPart); iPoint++)
 			{
 				pOut->Add_Point(pInLine->Get_Point(iPoint, iPart));
@@ -85,10 +85,10 @@ bool CTopologize::On_Execute(void)
 			end = pInLine->Get_Point(pInLine->Get_Point_Count(iPart)-1, iPart);
 			if (tolerance != 0)
 			{
-				start.x = floor(start.x / tolerance + 0.5);
-				start.y = floor(start.y / tolerance + 0.5);
-				end.x = floor(end.x / tolerance + 0.5);
-				end.y = floor(end.y / tolerance + 0.5);
+                start.x = floor(start.x / tolerance + 0.5);
+                start.y = floor(start.y / tolerance + 0.5);
+                end.x = floor(end.x / tolerance + 0.5);
+                end.y = floor(end.y / tolerance + 0.5);
 			}
 			
 			auto start_it = vertices.emplace(std::map<Vertex, int>::value_type(start, -1));
@@ -100,11 +100,7 @@ bool CTopologize::On_Execute(void)
 			if (it.second)
 				(*it.first).second = MaxNodeID++;
 			pOut->Set_Value("end_id", (*it.first).second);
-
-			
 		}
-
-
 	}
 
 	if (pOutPoints != 0) {
@@ -113,7 +109,7 @@ bool CTopologize::On_Execute(void)
 		{
 			CSG_Shape * pOut = pOutPoints->Add_Shape();
 			pOut->Set_Value("ID", iVertex->second);
-			pOut->Add_Point(iVertex->first.x, iVertex->first.y);
+            pOut->Add_Point(iVertex->first.x * tolerance + tolerance/2, iVertex->first.y * tolerance + tolerance/2);
 		}
 	}
 
