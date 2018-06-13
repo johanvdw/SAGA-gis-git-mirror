@@ -30,7 +30,7 @@ CTopologize::CTopologize(void)
     );
 
     Parameters.Add_Value(
-        NULL, "TOLERANCE"	, _TL("Tolerant Distance"),
+        NULL, "TOLERANCE"	, _TL("Tolerance Distance"),
         _TL(""),
         PARAMETER_TYPE_Double
     );
@@ -43,7 +43,7 @@ CTopologize::~CTopologize(void)
 bool CTopologize::On_Execute(void)
 {
     CSG_Shapes *pInLines, *pOutLines, *pOutPoints;
-	CSG_Shape *pInLine;
+    CSG_Shape_Line *pInLine;
 	int iPart, MaxNodeID=0;
     double tolerance;
 	std::map<Vertex, int> vertices;
@@ -57,6 +57,7 @@ bool CTopologize::On_Execute(void)
     
 	pOutLines->Add_Field("start_id", SG_DATATYPE_Int);
 	pOutLines->Add_Field("end_id", SG_DATATYPE_Int);
+	pOutLines->Add_Field("length", SG_DATATYPE_Double);
 	
 	if (pOutPoints != 0) {
 		pOutPoints->Set_Name(CSG_String::Format(_TL("Vertices of %s"), pInLines->Get_Name()));
@@ -67,7 +68,7 @@ bool CTopologize::On_Execute(void)
 
 	for (int iLine = 0; iLine < pInLines->Get_Count() && SG_UI_Process_Set_Progress(iLine, pInLines->Get_Count()); iLine++)
 	{
-        pInLine = pInLines->Get_Shape(iLine);
+        pInLine = (CSG_Shape_Line*) pInLines->Get_Shape(iLine);
 
 		for (iPart = 0; iPart < pInLine->Get_Part_Count(); iPart++)
 		{
@@ -100,6 +101,7 @@ bool CTopologize::On_Execute(void)
 			if (it.second)
 				(*it.first).second = MaxNodeID++;
 			pOut->Set_Value("end_id", (*it.first).second);
+            pOut->Set_Value("length", pInLine->Get_Length(iPart));
 		}
 	}
 
