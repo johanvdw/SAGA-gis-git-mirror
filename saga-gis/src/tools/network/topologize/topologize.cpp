@@ -86,10 +86,10 @@ bool CTopologize::On_Execute(void)
 			end = pInLine->Get_Point(pInLine->Get_Point_Count(iPart)-1, iPart);
 			if (tolerance != 0)
 			{
-                start.x = floor(start.x / tolerance + 0.5);
-                start.y = floor(start.y / tolerance + 0.5);
-                end.x = floor(end.x / tolerance + 0.5);
-                end.y = floor(end.y / tolerance + 0.5);
+                start.x = floor(start.x / tolerance + 0.5) * tolerance;
+                start.y = floor(start.y / tolerance + 0.5) * tolerance;
+                end.x = floor(end.x / tolerance + 0.5) * tolerance;
+                end.y = floor(end.y / tolerance + 0.5) * tolerance;
 			}
 			
 			auto start_it = vertices.emplace(std::map<Vertex, int>::value_type(start, -1));
