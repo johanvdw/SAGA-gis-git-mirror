@@ -32,7 +32,8 @@ CTopologize::CTopologize(void)
     Parameters.Add_Value(
         NULL, "TOLERANCE"	, _TL("Tolerance Distance"),
         _TL(""),
-        PARAMETER_TYPE_Double
+        PARAMETER_TYPE_Double,
+        0.01
     );
 
 }
@@ -111,7 +112,7 @@ bool CTopologize::On_Execute(void)
 		{
 			CSG_Shape * pOut = pOutPoints->Add_Shape();
 			pOut->Set_Value("ID", iVertex->second);
-            pOut->Add_Point(iVertex->first.x * tolerance + tolerance/2, iVertex->first.y * tolerance + tolerance/2);
+            pOut->Add_Point(iVertex->first.x + tolerance/2, iVertex->first.y + tolerance/2);
 		}
 	}
 
