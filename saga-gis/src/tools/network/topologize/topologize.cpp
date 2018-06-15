@@ -54,20 +54,20 @@ bool CTopologize::On_Execute(void)
     tolerance = Parameters("TOLERANCE")->asDouble();
 
     pOutLines->Set_Name(CSG_String::Format(_TL("Topology of %s"),pInLines->Get_Name()));
-    
-	pOutLines->Add_Field("start_id", SG_DATATYPE_Int);
-	pOutLines->Add_Field("end_id", SG_DATATYPE_Int);
-	pOutLines->Add_Field("length", SG_DATATYPE_Double);
+
+    if (pOutLines->Get_Field("start_id")==-1) pOutLines->Add_Field("start_id", SG_DATATYPE_Int);
+    if (pOutLines->Get_Field("end_id")==-1) pOutLines->Add_Field("end_id", SG_DATATYPE_Int);
+    if (pOutLines->Get_Field("length")==-1) pOutLines->Add_Field("length", SG_DATATYPE_Double);
 	
 	if (pOutPoints != 0) {
 		pOutPoints->Set_Name(CSG_String::Format(_TL("Vertices of %s"), pInLines->Get_Name()));
-		pOutPoints->Add_Field("ID", SG_DATATYPE_Int);
+        if (pOutPoints->Get_Field("ID")==-1) pOutPoints->Add_Field("ID", SG_DATATYPE_Int);
 	}
 
 
 
-	for (int iLine = 0; iLine < pInLines->Get_Count() && SG_UI_Process_Set_Progress(iLine, pInLines->Get_Count()); iLine++)
-	{
+    for (int iLine = 0; iLine < pInLines->Get_Count() && SG_UI_Process_Set_Progress(iLine, pInLines->Get_Count()); iLine++)
+    {
         pInLine = (CSG_Shape_Line*) pInLines->Get_Shape(iLine);
 
 		for (iPart = 0; iPart < pInLine->Get_Part_Count(); iPart++)

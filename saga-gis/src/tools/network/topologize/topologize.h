@@ -1,5 +1,7 @@
+#ifndef HEADER_INCLUDED__topologize_H
+#define HEADER_INCLUDED__topologize_H
 #include "TLB_Interface.h"
-
+#include <list>
 ///////////////////////////////////////////////////////////
 //														 //
 //														 //
@@ -35,4 +37,6 @@ struct Vertex : TSG_Point
 		x = v.x;
 		y = v.y;
 	}
+
 };
+#endif

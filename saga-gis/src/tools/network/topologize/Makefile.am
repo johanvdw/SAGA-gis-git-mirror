@@ -11,7 +11,9 @@ libnetwork_topologize_la_SOURCES =\
 topologize.cpp\
 TLB_Interface.cpp\
 topologize.h\
-TLB_Interface.h
+TLB_Interface.h\
+cacyclical.cpp\
+cacyclical.h
 
 libnetwork_topologize_la_LIBADD = $(top_srcdir)/src/saga_core/saga_api/libsaga_api.la
 
