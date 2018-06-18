@@ -18,7 +18,7 @@ protected:
 struct node
 {
     std::vector<int> from;
-    std::list<int> to;
+    std::vector<int> to;
     std::list<int> upstream;
     std::vector<bool> finished;
     int order;

@@ -85,7 +85,7 @@ bool CAcyclical::On_Execute(void)
 
 
             // voorlopig slechts 1 node in beschouwing nemen
-            for (int iTo=0; iTo < j->to.size() && iTo <1; iTo++)
+            for (int iTo=0; iTo < j->to.size() ; iTo++)
             {
                 int end_node_id = j->to[iTo];
 
@@ -97,11 +97,13 @@ bool CAcyclical::On_Execute(void)
                 // en het punt zelf - aan te passen, mag maar 1x
                 nextnode->upstream.push_back(orig_edge);
 
-                todo.push_back(end_node_id);
+                // add to todo if it is not yet there
+                if (std::find(todo.begin(), todo.end(),end_node_id)==todo.end())
+                    todo.push_back(end_node_id);
 
-                for(int i=0; i< nextnode->from.size(); i++)
-                    if (nextnode->from[i] == end_node_id)
-                        nextnode->finished[i]=true;
+                for(int i=0; i< node_links[end_node_id].from.size(); i++)
+                    if (node_links[end_node_id].from[i] == orig_edge)
+                        node_links[end_node_id].finished[i]=true;
 
 
             }
