@@ -83,8 +83,6 @@ bool CAcyclical::On_Execute(void)
 
 
 
-
-            // voorlopig slechts 1 node in beschouwing nemen
             for (int iTo=0; iTo < j->to.size() ; iTo++)
             {
                 int end_node_id = j->to[iTo];
@@ -92,10 +90,14 @@ bool CAcyclical::On_Execute(void)
                 node * nextnode = &node_links[end_node_id];
 
                 // kopieer bovenliggende punten
-                nextnode->upstream.insert(nextnode->upstream.end(), j->upstream.begin(), j->upstream.end());
+                for (auto iUpstream = j->upstream.begin(); iUpstream != j->upstream.end(); iUpstream++)
+                {
+                    nextnode->upstream[iUpstream->first] += iUpstream->second/ j->to.size();
+                }
+                //nextnode->upstream.insert(j->upstream.begin(), j->upstream.end());
 
                 // en het punt zelf - aan te passen, mag maar 1x
-                nextnode->upstream.push_back(orig_edge);
+                nextnode->upstream[orig_edge] += 1.0/j->to.size();
 
                 // add to todo if it is not yet there
                 if (std::find(todo.begin(), todo.end(),end_node_id)==todo.end())
@@ -121,7 +123,8 @@ bool CAcyclical::On_Execute(void)
         {
             auto *pRecord = pUpstream_Edges->Add_Record();
             pRecord->Set_Value("edge", it->first);
-            pRecord->Set_Value("upstream", *up);
+            pRecord->Set_Value("upstream", up->first);
+            pRecord->Set_Value("contribution", up->second);
         }
 
     }

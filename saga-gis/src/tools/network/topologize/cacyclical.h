@@ -4,6 +4,7 @@
 #include "TLB_Interface.h"
 #include <list>
 #include <vector>
+#include <map>
 
 class CAcyclical : public CSG_Tool
 {
@@ -19,7 +20,7 @@ struct node
 {
     std::vector<int> from;
     std::vector<int> to;
-    std::list<int> upstream;
+    std::map<int,double> upstream;
     std::vector<bool> finished;
     int order;
     int strahler;
