@@ -3,6 +3,7 @@
 
 #include "TLB_Interface.h"
 #include <list>
+#include <vector>
 
 class CAcyclical : public CSG_Tool
 {
@@ -16,10 +17,10 @@ protected:
 
 struct node
 {
-    std::list<int> from;
+    std::vector<int> from;
     std::list<int> to;
     std::list<int> upstream;
-    bool finished;
+    std::vector<bool> finished;
     int order;
     int strahler;
 };
