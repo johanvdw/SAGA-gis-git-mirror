@@ -49,8 +49,8 @@ bool CAcyclical::On_Execute(void)
         CSG_Shape * pLine = pInLines->Get_Shape(iLine);
         int start_id = pLine->Get_Value(start_field)->asInt();
         int end_id = pLine->Get_Value(end_field)->asInt();
-        node_links[start_id].to.push_back(iLine);
-        node_links[end_id].from.push_back(iLine);
+        node_links[start_id].to.push_back(end_id);
+        node_links[end_id].from.push_back(start_id);
         node_links[end_id].finished.push_back(false);
     }
 
@@ -66,64 +66,48 @@ bool CAcyclical::On_Execute(void)
         }
     }
 
-    while (todo.size() >0)
+    while (todo.size() > 0)
         for (auto it=todo.begin(); it!=todo.end();)
         {
             node *j = &node_links[*it];
-            node * prev_j = j;
-
+            int orig_edge = *it;
             // track these nodes downstream if all upstream links have been evaluated
               // pseudocode= if not all finished: it++
               for(int i=0; i < j->finished.size(); i++){
                   if (!j->finished[i])
                   {
                      it++;
-                     break;
+                     goto next_todo;
                   }
               }
 
 
-            int orig_edge = *it;
-            while (j->to.size()>0)
+
+
+            // voorlopig slechts 1 node in beschouwing nemen
+            for (int iTo=0; iTo < j->to.size() && iTo <1; iTo++)
             {
-                CSG_Shape* edge = pInLines->Get_Shape(j->to.front());
-                int end_node_id = edge->Get_Value(end_field)->asInt();
+                int end_node_id = j->to[iTo];
 
-                /*if(std::find(j.upstream.begin(), j.upstream.end(), end_node_id) != j.upstream.end()) {
-                    break; // don't follow if we hit a circle
-                }*/
-
-
-                j = &node_links[end_node_id];
+                node * nextnode = &node_links[end_node_id];
 
                 // kopieer bovenliggende punten
-                j->upstream.insert(j->upstream.end(), prev_j->upstream.begin(), prev_j->upstream.end());
+                nextnode->upstream.insert(nextnode->upstream.end(), j->upstream.begin(), j->upstream.end());
 
-                // en het punt zelf
-                j->upstream.push_back(orig_edge);
+                // en het punt zelf - aan te passen, mag maar 1x
+                nextnode->upstream.push_back(orig_edge);
 
-                // indien eind van enkelvoudig stuk: toevoegen aan todo list
-                if (todo.end()!=it && j->from.size()>1)
-                {
-                    for(int i=0; i < j->from.size(); i++){
-                       j->finished[i]=true;
-                    }
+                todo.push_back(end_node_id);
 
-                    if (std::find(it, todo.end(), orig_edge) != todo.end())
-                    {
-                        todo.push_back(end_node_id);
-                    }
+                for(int i=0; i< nextnode->from.size(); i++)
+                    if (nextnode->from[i] == end_node_id)
+                        nextnode->finished[i]=true;
 
-                    break;
-                }
-
-
-                prev_j = j;
-
-                orig_edge = end_node_id;
 
             }
+
             it = todo.erase(it);
+            next_todo:;
         }
 
     // convert results to a nice table
